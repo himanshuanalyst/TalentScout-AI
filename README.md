@@ -6,6 +6,11 @@
 ![Developer](https://img.shields.io/badge/Developer-Himanshu%20Shukla-orange)
 
 **TalentScout AI** is an enterprise-grade recruitment tool that leverages **Local LLMs (Ollama)** and **OCR Technology** to automate resume screening. It analyzes candidate CVs against job descriptions with human-level reasoning, providing a ranked list of top talent.
+![1](https://github.com/user-attachments/assets/f434a7db-2e1a-4adb-862e-d8e81bc4461b)
+![2](https://github.com/user-attachments/assets/775c55c6-9e3b-44b5-a0ff-c9912e02cc14)
+![3](https://github.com/user-attachments/assets/d19e9c69-26c2-4e39-b93e-5a0bf2a9e2d7)
+![4](https://github.com/user-attachments/assets/e9878c5f-df2d-4ce5-b954-1504536a03bf)
+![5](https://github.com/user-attachments/assets/246d2afe-8d78-4b6a-8b96-6e20ea2b7910)
 
 ## ✨ Key Features
 
@@ -28,4 +33,5 @@
 1. Install [Python 3.10+](https://www.python.org/)
 2. Install [Ollama](https://ollama.com/) and pull a model:
    ```bash
+
    ollama pull mistral
