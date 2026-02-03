@@ -1,0 +1,31 @@
+# 🚀 TalentScout AI | Enterprise Recruitment Intelligence
+
+![AI Powered](https://img.shields.io/badge/AI-Powered-blueviolet)
+![Python](https://img.shields.io/badge/Backend-Flask-green)
+![UI](https://img.shields.io/badge/Frontend-TailwindCSS-blue)
+![Developer](https://img.shields.io/badge/Developer-Himanshu%20Shukla-orange)
+
+**TalentScout AI** is an enterprise-grade recruitment tool that leverages **Local LLMs (Ollama)** and **OCR Technology** to automate resume screening. It analyzes candidate CVs against job descriptions with human-level reasoning, providing a ranked list of top talent.
+
+## ✨ Key Features
+
+- **🧠 Local AI Reasoning:** Uses Mistral/Llama3 via Ollama for privacy-focused analysis (No data leaves your machine).
+- **👁️ Smart OCR:** Automatically detects and extracts text from scanned/image-based PDFs using Tesseract & Poppler.
+- **📊 Dynamic Ranking:** Scores candidates (0-100%) based on Education, Experience, Skills, and Domain Fit.
+- **🎨 Modern UI:** Glassmorphism design using Tailwind CSS with Dark Mode aesthetics.
+- **📁 Excel Integration:** Bulk upload job criteria via Excel and export results to CSV/Excel.
+
+## 🛠️ Tech Stack
+
+- **Backend:** Python, Flask
+- **Frontend:** HTML5, Tailwind CSS, JavaScript (Vanilla)
+- **AI Engine:** Ollama (Mistral/Llama3)
+- **Document Processing:** PyPDF, PyTesseract, PDF2Image
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+1. Install [Python 3.10+](https://www.python.org/)
+2. Install [Ollama](https://ollama.com/) and pull a model:
+   ```bash
+   ollama pull mistral

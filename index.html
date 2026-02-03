@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentScout AI | Enterprise Recruitment Intelligence</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        accent: {
+                            purple: '#8b5cf6',
+                            cyan: '#06b6d4',
+                            rose: '#f43f5e',
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shimmer': 'shimmer 2s linear infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'shimmer': {
+                            '0%': { backgroundPosition: '-1000px 0' },
+                            '100%': { backgroundPosition: '1000px 0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            overflow-x: hidden;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .mesh-gradient {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+        }
+        
+        .input-glow:focus {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            border-color: rgba(59, 130, 246, 0.8);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -10px rgba(102, 126, 234, 0.5);
+        }
+        
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        .file-drop-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .file-drop-zone:hover, .file-drop-zone.dragover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform-origin: 50% 50%;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .loading-pulse {
+            animation: loading-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes loading-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        
+        .table-row {
+            transition: all 0.2s ease;
+        }
+        
+        .table-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.01);
+        }
+        
+        .badge {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .badge::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.3) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen mesh-gradient custom-scrollbar">
+
+    <!-- Background Effects -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="floating-orb w-96 h-96 bg-purple-600 top-0 left-0"></div>
+        <div class="floating-orb w-96 h-96 bg-blue-600 bottom-0 right-0" style="animation-delay: -5s;"></div>
+        <div class="floating-orb w-64 h-64 bg-cyan-600 top-1/2 left-1/2" style="animation-delay: -2s;"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="relative z-50 glass-panel border-b border-white/10 sticky top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl blur-lg opacity-50"></div>
+                        <div class="relative bg-slate-900 p-2 rounded-xl border border-white/20">
+                            <i data-lucide="brain-circuit" class="w-8 h-8 text-blue-400"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+                            TalentScout
+                        </span>
+                        <span class="text-xs text-blue-400 font-semibold ml-2 px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20">
+                            ENTERPRISE
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-6">
+                    <div class="flex items-center gap-2 text-sm text-slate-400">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        System Online
+                    </div>
+                    <button class="text-sm text-slate-300 hover:text-white transition flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-4 h-4"></i>
+                        Support
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-sm font-bold">
+                        HS
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- Hero Section -->
+        <div class="text-center mb-16 relative">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 hover:bg-white/10 transition cursor-pointer group">
+                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                <span class="text-sm font-medium text-slate-300">v2.0 Now Available</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition"></i>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                <span class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    AI-Powered
+                </span>
+                <br>
+                <span class="text-white">Recruitment Intelligence</span>
+            </h1>
+            
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                Harness the power of local LLMs to analyze, rank, and shortlist candidates with human-level precision. Enterprise-grade screening at your fingertips.
+            </p>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-3xl mx-auto">
+                <div class="stat-card p-6 rounded-2xl">
+                    <div class="text-3xl font-bold text-white mb-1">99.8%</div>
+                    <div class="text-sm text-slate-400">Accuracy Rate</div>
+                </div>
+                <div class="stat-card p-6 rounded-2xl">
+                    <div class="text-3xl font-bold text-white mb-1">10x</div>
+                    <div class="text-sm text-slate-400">Faster Screening</div>
+                </div>
+                <div class="stat-card p-6 rounded-2xl">
+                    <div class="text-3xl font-bold text-white mb-1">50+</div>
+                    <div class="text-sm text-slate-400">AI Models</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuration Panel -->
+        <form id="uploadForm" class="space-y-8">
+            
+            <!-- System Config -->
+            <div class="glass-card rounded-3xl p-8 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-blue-500/30 transition duration-700"></div>
+                
+                <div class="flex items-center justify-between mb-8 relative z-10">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-blue-500/20 rounded-xl border border-blue-500/30">
+                            <i data-lucide="settings-2" class="w-6 h-6 text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">System Configuration</h3>
+                            <p class="text-sm text-slate-400">Configure AI engines and processing paths</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="resetConfig()" class="text-sm text-slate-400 hover:text-white transition flex items-center gap-2">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        Reset Defaults
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300 flex items-center gap-2">
+                            <i data-lucide="scan" class="w-4 h-4 text-slate-500"></i>
+                            Tesseract OCR Path
+                        </label>
+                        <div class="relative">
+                            <input type="text" name="tesseract_path" value="D:\DCS\Crop Prediction\Tesseract-OCR\tesseract.exe" 
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none input-glow transition placeholder-slate-600"
+                                placeholder="Path to tesseract.exe">
+                            <div class="absolute right-3 top-3 text-slate-600">
+                                <i data-lucide="folder-open" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300 flex items-center gap-2">
+                            <i data-lucide="image" class="w-4 h-4 text-slate-500"></i>
+                            Poppler Binary Path
+                        </label>
+                        <div class="relative">
+                            <input type="text" name="poppler_path" value="D:\D\Projects\chat_with_pdf\poppler-24.08.0\Library\bin" 
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none input-glow transition placeholder-slate-600"
+                                placeholder="Path to poppler bin">
+                            <div class="absolute right-3 top-3 text-slate-600">
+                                <i data-lucide="folder-open" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300 flex items-center gap-2">
+                            <i data-lucide="cpu" class="w-4 h-4 text-slate-500"></i>
+                            AI Model Selection
+                        </label>
+                        <div class="relative">
+                            <select name="model" class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none input-glow transition appearance-none cursor-pointer">
+                                <option value="mistral">Mistral 7B (Recommended)</option>
+                                <option value="llama3">Llama 3 8B</option>
+                                <option value="codellama">CodeLlama 7B</option>
+                                <option value="neural-chat">Neural Chat 7B</option>
+                            </select>
+                            <div class="absolute right-3 top-3 text-slate-400 pointer-events-none">
+                                <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Job Criteria Upload -->
+                <div class="glass-card rounded-3xl p-8 relative overflow-hidden group hover:border-blue-500/30 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="p-4 bg-green-500/20 rounded-2xl border border-green-500/30 group-hover:scale-110 transition duration-300">
+                                <i data-lucide="sheet" class="w-8 h-8 text-green-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Job Criteria</h3>
+                                <p class="text-sm text-slate-400">Upload Excel with role requirements</p>
+                            </div>
+                        </div>
+
+                        <div class="file-drop-zone rounded-2xl p-8 text-center cursor-pointer mb-6 relative" id="criteriaDropZone">
+                            <input type="file" name="criteria_file" accept=".xlsx,.xls" required 
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+                                onchange="handleFileSelect(this, 'criteria')">
+                            
+                            <div id="criteriaPlaceholder" class="space-y-3">
+                                <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-white/10">
+                                    <i data-lucide="upload-cloud" class="w-8 h-8 text-slate-400"></i>
+                                </div>
+                                <p class="text-slate-300 font-medium">Drop Excel file here or click to browse</p>
+                                <p class="text-xs text-slate-500">Supports .xlsx, .xls formats</p>
+                            </div>
+                            
+                            <div id="criteriaFileInfo" class="hidden space-y-2">
+                                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto border border-green-500/30">
+                                    <i data-lucide="file-spreadsheet" class="w-8 h-8 text-green-400"></i>
+                                </div>
+                                <p class="text-white font-medium file-name">filename.xlsx</p>
+                                <p class="text-xs text-green-400 file-size">2.4 MB</p>
+                                <button type="button" onclick="clearFile(event, 'criteria')" class="text-xs text-red-400 hover:text-red-300 mt-2">Remove file</button>
+                            </div>
+                        </div>
+
+                        <!-- Column Mapping -->
+                        <div class="space-y-4 border-t border-white/10 pt-6">
+                            <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Column Mapping</label>
+                            
+                            <div class="grid grid-cols-1 gap-3">
+                                <div class="relative">
+                                    <i data-lucide="briefcase" class="absolute left-3 top-3 w-4 h-4 text-slate-500"></i>
+                                    <input type="text" name="col_role" placeholder="Role Column (e.g., 'Position')" required
+                                        class="w-full bg-slate-900/30 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-green-500/50 transition placeholder-slate-600">
+                                </div>
+                                <div class="relative">
+                                    <i data-lucide="tools" class="absolute left-3 top-3 w-4 h-4 text-slate-500"></i>
+                                    <input type="text" name="col_skills" placeholder="Skills Column (e.g., 'Requirements')" required
+                                        class="w-full bg-slate-900/30 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-green-500/50 transition placeholder-slate-600">
+                                </div>
+                                <div class="relative">
+                                    <i data-lucide="clock" class="absolute left-3 top-3 w-4 h-4 text-slate-500"></i>
+                                    <input type="text" name="col_exp" placeholder="Experience Column (e.g., 'Years')" required
+                                        class="w-full bg-slate-900/30 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-green-500/50 transition placeholder-slate-600">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CV Upload -->
+                <div class="glass-card rounded-3xl p-8 relative overflow-hidden group hover:border-red-500/30 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="p-4 bg-red-500/20 rounded-2xl border border-red-500/30 group-hover:scale-110 transition duration-300">
+                                <i data-lucide="file-text" class="w-8 h-8 text-red-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Candidate CVs</h3>
+                                <p class="text-sm text-slate-400">Upload multiple PDF resumes</p>
+                            </div>
+                        </div>
+
+                        <div class="file-drop-zone rounded-2xl p-8 text-center cursor-pointer mb-6 relative min-h-[200px]" id="cvDropZone">
+                            <input type="file" name="cv_files" accept=".pdf" multiple required 
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+                                onchange="handleFileSelect(this, 'cv')">
+                            
+                            <div id="cvPlaceholder" class="space-y-3">
+                                <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-white/10">
+                                    <i data-lucide="files" class="w-8 h-8 text-slate-400"></i>
+                                </div>
+                                <p class="text-slate-300 font-medium">Drop PDF files here or click to browse</p>
+                                <p class="text-xs text-slate-500">Supports multiple files, OCR enabled</p>
+                            </div>
+                            
+                            <div id="cvFileInfo" class="hidden space-y-2">
+                                <div class="flex flex-wrap gap-2 justify-center mb-3" id="cvFileList">
+                                    <!-- File tags will be inserted here -->
+                                </div>
+                                <p class="text-white font-medium"><span id="cvCount">0</span> files selected</p>
+                                <p class="text-xs text-red-400 mt-1">Click to add more files</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                            <div class="flex items-start gap-3">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400 mt-0.5"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-slate-200">Smart OCR Detection</p>
+                                    <p class="text-xs text-slate-500 mt-1">Automatically extracts text from scanned images and native PDFs with 99% accuracy</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="processBtn" class="w-full group relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 p-4 font-bold text-white shadow-2xl shadow-purple-500/25 transition-all hover:scale-[1.02] hover:shadow-purple-500/40 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                <span class="relative flex items-center justify-center gap-3 text-lg">
+                    <i data-lucide="rocket" class="w-6 h-6 group-hover:animate-bounce"></i>
+                    Launch AI Analysis
+                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </span>
+            </button>
+        </form>
+
+        <!-- Loading State -->
+        <div id="loader" class="hidden mt-16 text-center">
+            <div class="relative w-32 h-32 mx-auto mb-8">
+                <svg class="progress-ring w-32 h-32" viewBox="0 0 120 120">
+                    <circle class="text-slate-800" stroke-width="4" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60"/>
+                    <circle id="progressCircle" class="progress-ring-circle text-blue-500" stroke-width="4" stroke-linecap="round" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60" stroke-dasharray="326.72" stroke-dashoffset="326.72"/>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <i data-lucide="brain" class="w-12 h-12 text-blue-400 loading-pulse"></i>
+                </div>
+            </div>
+            
+            <h2 class="text-2xl font-bold text-white mb-2">Analyzing Candidates</h2>
+            <p class="text-slate-400 mb-8">Processing CVs with advanced neural networks...</p>
+            
+            <div class="max-w-md mx-auto space-y-3">
+                <div class="flex justify-between text-sm text-slate-500">
+                    <span>Extracting text</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="progressBar" class="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <div class="text-xs text-slate-600 mt-2" id="currentFile">Initializing...</div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsArea" class="hidden mt-16 space-y-8">
+            
+            <!-- Results Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-2">Analysis Results</h2>
+                    <p class="text-slate-400">Ranked candidates based on AI evaluation</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="exportResults()" class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm font-medium text-white transition flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        Export CSV
+                    </button>
+                    <button onclick="window.print()" class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm font-medium text-white transition flex items-center gap-2">
+                        <i data-lucide="printer" class="w-4 h-4"></i>
+                        Print Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="glass-card rounded-2xl p-4 flex flex-wrap gap-4 items-center">
+                <span class="text-sm text-slate-400 flex items-center gap-2">
+                    <i data-lucide="filter" class="w-4 h-4"></i>
+                    Filter:
+                </span>
+                <button onclick="filterResults('all')" class="px-4 py-2 rounded-lg bg-blue-500/20 text-blue-400 text-sm font-medium border border-blue-500/30 hover:bg-blue-500/30 transition filter-btn active" data-filter="all">
+                    All Candidates
+                </button>
+                <button onclick="filterResults('shortlisted')" class="px-4 py-2 rounded-lg bg-white/5 text-slate-400 text-sm font-medium border border-white/10 hover:bg-green-500/20 hover:text-green-400 hover:border-green-500/30 transition filter-btn" data-filter="shortlisted">
+                    Shortlisted
+                </button>
+                <button onclick="filterResults('rejected')" class="px-4 py-2 rounded-lg bg-white/5 text-slate-400 text-sm font-medium border border-white/10 hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30 transition filter-btn" data-filter="rejected">
+                    Rejected
+                </button>
+                
+                <div class="ml-auto flex items-center gap-2">
+                    <span class="text-sm text-slate-400">Sort by:</span>
+                    <select onchange="sortResults(this.value)" class="bg-slate-900/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none">
+                        <option value="score">Match Score</option>
+                        <option value="name">Name</option>
+                        <option value="role">Role</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <div class="glass-card rounded-3xl overflow-hidden border border-white/10">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-white/5 border-b border-white/10">
+                                <th class="p-6 text-xs font-semibold text-slate-400 uppercase tracking-wider w-24">Score</th>
+                                <th class="p-6 text-xs font-semibold text-slate-400 uppercase tracking-wider">Candidate</th>
+                                <th class="p-6 text-xs font-semibold text-slate-400 uppercase tracking-wider">Role</th>
+                                <th class="p-6 text-xs font-semibold text-slate-400 uppercase tracking-wider w-32">Status</th>
+                                <th class="p-6 text-xs font-semibold text-slate-400 uppercase tracking-wider">AI Analysis</th>
+                                <th class="p-6 text-xs font-semibold text-slate-400 uppercase tracking-wider w-20">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsBody" class="divide-y divide-white/5">
+                            <!-- Results will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden p-12 text-center">
+                    <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="search-x" class="w-8 h-8 text-slate-600"></i>
+                    </div>
+                    <p class="text-slate-400">No candidates match the selected filter</p>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div class="glass-card rounded-2xl p-6 border-l-4 border-green-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2 bg-green-500/20 rounded-lg">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-400"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white" id="shortlistedCount">0</span>
+                    </div>
+                    <p class="text-sm text-slate-400">Shortlisted Candidates</p>
+                    <p class="text-xs text-green-400 mt-1">Ready for interview</p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-6 border-l-4 border-yellow-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2 bg-yellow-500/20 rounded-lg">
+                            <i data-lucide="alert-circle" class="w-6 h-6 text-yellow-400"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white" id="avgScore">0%</span>
+                    </div>
+                    <p class="text-sm text-slate-400">Average Match Score</p>
+                    <p class="text-xs text-yellow-400 mt-1">Across all candidates</p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-6 border-l-4 border-blue-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2 bg-blue-500/20 rounded-lg">
+                            <i data-lucide="clock" class="w-6 h-6 text-blue-400"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white" id="processingTime">0s</span>
+                    </div>
+                    <p class="text-sm text-slate-400">Processing Time</p>
+                    <p class="text-xs text-blue-400 mt-1">AI analysis duration</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-white/10 mt-20 bg-slate-900/50 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="brain-circuit" class="w-6 h-6 text-blue-400"></i>
+                    <span class="text-lg font-bold text-white">TalentScout AI</span>
+                </div>
+                <div class="flex gap-6 text-sm text-slate-400">
+                    <a href="#" class="hover:text-white transition">Documentation</a>
+                    <a href="#" class="hover:text-white transition">API Reference</a>
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                </div>
+                <div class="text-sm text-slate-500">
+                    © 2026 Developed by <span class="text-white font-semibold">Himanshu Shukla</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Global variables
+        let analysisResults = [];
+        let startTime = 0;
+
+        // File handling
+        function handleFileSelect(input, type) {
+            const files = input.files;
+            if (files.length === 0) return;
+
+            if (type === 'criteria') {
+                const file = files[0];
+                document.getElementById('criteriaPlaceholder').classList.add('hidden');
+                document.getElementById('criteriaFileInfo').classList.remove('hidden');
+                document.querySelector('#criteriaFileInfo .file-name').textContent = file.name;
+                document.querySelector('#criteriaFileInfo .file-size').textContent = (file.size / 1024).toFixed(1) + ' KB';
+                document.getElementById('criteriaDropZone').classList.add('border-green-500/50', 'bg-green-500/10');
+            } else if (type === 'cv') {
+                document.getElementById('cvPlaceholder').classList.add('hidden');
+                document.getElementById('cvFileInfo').classList.remove('hidden');
+                document.getElementById('cvCount').textContent = files.length;
+                
+                const fileList = document.getElementById('cvFileList');
+                fileList.innerHTML = '';
+                Array.from(files).slice(0, 3).forEach(file => {
+                    const tag = document.createElement('span');
+                    tag.className = 'px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-xs border border-red-500/30';
+                    tag.textContent = file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name;
+                    fileList.appendChild(tag);
+                });
+                if (files.length > 3) {
+                    const more = document.createElement('span');
+                    more.className = 'px-3 py-1 bg-white/10 text-slate-400 rounded-full text-xs';
+                    more.textContent = `+${files.length - 3} more`;
+                    fileList.appendChild(more);
+                }
+                document.getElementById('cvDropZone').classList.add('border-red-500/50', 'bg-red-500/10');
+            }
+        }
+
+        function clearFile(event, type) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (type === 'criteria') {
+                document.querySelector('input[name="criteria_file"]').value = '';
+                document.getElementById('criteriaPlaceholder').classList.remove('hidden');
+                document.getElementById('criteriaFileInfo').classList.add('hidden');
+                document.getElementById('criteriaDropZone').classList.remove('border-green-500/50', 'bg-green-500/10');
+            }
+        }
+
+        function resetConfig() {
+            document.querySelector('input[name="tesseract_path"]').value = "D:\\DCS\\Crop Prediction\\Tesseract-OCR\\tesseract.exe";
+            document.querySelector('input[name="poppler_path"]').value = "D:\\D\\Projects\\chat_with_pdf\\poppler-24.08.0\\Library\\bin";
+            document.querySelector('select[name="model"]').value = 'mistral';
+        }
+
+        // Form submission
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('processBtn');
+            const loader = document.getElementById('loader');
+            const resultsArea = document.getElementById('resultsArea');
+            
+            btn.disabled = true;
+            loader.classList.remove('hidden');
+            resultsArea.classList.add('hidden');
+            startTime = Date.now();
+            
+            // Simulate progress
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const progressCircle = document.getElementById('progressCircle');
+            const progressText = document.getElementById('progressText');
+            const currentFile = document.getElementById('currentFile');
+            
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                
+                progressBar.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+                
+                const circumference = 2 * Math.PI * 52;
+                const offset = circumference - (progress / 100) * circumference;
+                progressCircle.style.strokeDashoffset = offset;
+                
+                const files = document.querySelector('input[name="cv_files"]').files;
+                if (files.length > 0) {
+                    const fileIndex = Math.min(Math.floor((progress / 100) * files.length), files.length - 1);
+                    currentFile.textContent = `Processing: ${files[fileIndex].name}`;
+                }
+            }, 800);
+
+            try {
+                const formData = new FormData(this);
+                
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                clearInterval(progressInterval);
+                
+                if (result.status === 'success') {
+                    analysisResults = result.data;
+                    displayResults(result.data);
+                    loader.classList.add('hidden');
+                    resultsArea.classList.remove('hidden');
+                    resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                clearInterval(progressInterval);
+                alert('Error: ' + error.message);
+                loader.classList.add('hidden');
+                btn.disabled = false;
+            }
+        });
+
+        function displayResults(data) {
+            const tbody = document.getElementById('resultsBody');
+            tbody.innerHTML = '';
+            
+            let shortlisted = 0;
+            let totalScore = 0;
+            
+            data.forEach((item, index) => {
+                if (item.status.toLowerCase().includes('shortlist')) shortlisted++;
+                totalScore += item.score;
+                
+                const scoreColor = item.score >= 80 ? 'text-green-400' : (item.score >= 60 ? 'text-yellow-400' : 'text-red-400');
+                const scoreBg = item.score >= 80 ? 'bg-green-500/20 border-green-500/30' : (item.score >= 60 ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-red-500/20 border-red-500/30');
+                const statusColor = item.status.toLowerCase().includes('shortlist') ? 'bg-green-500/20 text-green-400 border-green-500/30' : 'bg-red-500/20 text-red-400 border-red-500/30';
+                
+                const row = document.createElement('tr');
+                row.className = 'table-row border-b border-white/5 hover:bg-white/5 transition';
+                row.dataset.status = item.status.toLowerCase().includes('shortlist') ? 'shortlisted' : 'rejected';
+                row.dataset.score = item.score;
+                row.dataset.name = item.candidate.toLowerCase();
+                row.dataset.role = item.role.toLowerCase();
+                
+                row.innerHTML = `
+                    <td class="p-6">
+                        <div class="flex items-center gap-3">
+                            <div class="relative w-12 h-12">
+                                <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 36 36">
+                                    <path class="text-slate-800" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"/>
+                                    <path class="${scoreColor}" stroke-dasharray="${item.score}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"/>
+                                </svg>
+                                <span class="absolute inset-0 flex items-center justify-center text-xs font-bold ${scoreColor}">${item.score}%</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-6">
+                        <div class="font-semibold text-white text-lg">${item.candidate}</div>
+                        <div class="text-sm text-slate-500 flex items-center gap-2 mt-1">
+                            <i data-lucide="file" class="w-3 h-3"></i>
+                            ${item.filename}
+                        </div>
+                    </td>
+                    <td class="p-6">
+                        <span class="px-3 py-1.5 rounded-full text-sm font-medium bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                            ${item.role}
+                        </span>
+                    </td>
+                    <td class="p-6">
+                        <span class="badge px-4 py-2 rounded-full text-xs font-bold border ${statusColor}">
+                            ${item.status}
+                        </span>
+                    </td>
+                    <td class="p-6">
+                        <p class="text-slate-400 text-sm italic leading-relaxed">"${item.reason}"</p>
+                    </td>
+                    <td class="p-6">
+                        <button onclick="viewDetails('${item.candidate}')" class="p-2 hover:bg-white/10 rounded-lg transition text-slate-400 hover:text-white">
+                            <i data-lucide="eye" class="w-5 h-5"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Update summary
+            document.getElementById('shortlistedCount').textContent = shortlisted;
+            document.getElementById('avgScore').textContent = Math.round(totalScore / data.length) + '%';
+            document.getElementById('processingTime').textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
+            
+            lucide.createIcons();
+        }
+
+        function filterResults(filter) {
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.classList.add('bg-blue-500/20', 'text-blue-400', 'border-blue-500/30');
+                    btn.classList.remove('bg-white/5', 'text-slate-400', 'border-white/10');
+                } else {
+                    btn.classList.remove('bg-blue-500/20', 'text-blue-400', 'border-blue-500/30');
+                    btn.classList.add('bg-white/5', 'text-slate-400', 'border-white/10');
+                }
+            });
+            
+            // Filter rows
+            const rows = document.querySelectorAll('#resultsBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                if (filter === 'all' || row.dataset.status === filter) {
+                    row.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+            
+            // Show empty state if needed
+            document.getElementById('emptyState').classList.toggle('hidden', visibleCount > 0);
+        }
+
+        function sortResults(criteria) {
+            const tbody = document.getElementById('resultsBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            rows.sort((a, b) => {
+                if (criteria === 'score') {
+                    return parseInt(b.dataset.score) - parseInt(a.dataset.score);
+                } else if (criteria === 'name') {
+                    return a.dataset.name.localeCompare(b.dataset.name);
+                } else if (criteria === 'role') {
+                    return a.dataset.role.localeCompare(b.dataset.role);
+                }
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        function viewDetails(candidate) {
+            const data = analysisResults.find(r => r.candidate === candidate);
+            if (data) {
+                alert(`Candidate: ${data.candidate}\nScore: ${data.score}%\nStatus: ${data.status}\n\nReason: ${data.reason}`);
+            }
+        }
+
+        function exportResults() {
+            let csv = 'Candidate,Role,Score,Status,Reason,Filename\n';
+            analysisResults.forEach(item => {
+                csv += `"${item.candidate}","${item.role}",${item.score},"${item.status}","${item.reason}","${item.filename}"\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'talentscout_analysis.csv';
+            a.click();
+        }
+
+        // Drag and drop visual feedback
+        ['criteriaDropZone', 'cvDropZone'].forEach(id => {
+            const zone = document.getElementById(id);
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zone.classList.add('dragover');
+            });
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('dragover');
+            });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('dragover');
+            });
+        });
+    </script>
+</body>
+</html>
