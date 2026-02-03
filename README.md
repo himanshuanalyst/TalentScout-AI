@@ -6,11 +6,11 @@
 ![Developer](https://img.shields.io/badge/Developer-Himanshu%20Shukla-orange)
 
 **TalentScout AI** is an enterprise-grade recruitment tool that leverages **Local LLMs (Ollama)** and **OCR Technology** to automate resume screening. It analyzes candidate CVs against job descriptions with human-level reasoning, providing a ranked list of top talent.
-![1](https://github.com/user-attachments/assets/f434a7db-2e1a-4adb-862e-d8e81bc4461b)
-![2](https://github.com/user-attachments/assets/775c55c6-9e3b-44b5-a0ff-c9912e02cc14)
-![3](https://github.com/user-attachments/assets/d19e9c69-26c2-4e39-b93e-5a0bf2a9e2d7)
-![4](https://github.com/user-attachments/assets/e9878c5f-df2d-4ce5-b954-1504536a03bf)
-![5](https://github.com/user-attachments/assets/246d2afe-8d78-4b6a-8b96-6e20ea2b7910)
+![1](https://github.com/user-attachments/assets/7a82092e-7f46-4c6e-9348-50f65e9ec57f)
+![2](https://github.com/user-attachments/assets/2ecbbc8a-62fa-4614-83fc-bc532956d427)
+![3](https://github.com/user-attachments/assets/dc3bfd2d-a7cb-4ca9-a52d-5181b17fd785)
+![4](https://github.com/user-attachments/assets/26b4b006-2351-496c-8dae-f55d4c94401e)
+![5](https://github.com/user-attachments/assets/adfc3ab2-a4c7-4e1d-b564-459031004cb8)
 
 ## ✨ Key Features
 
@@ -35,3 +35,4 @@
    ```bash
 
    ollama pull mistral
+
